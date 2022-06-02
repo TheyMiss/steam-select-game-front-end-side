@@ -6,15 +6,42 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import { nanoid } from "nanoid";
+import { useEffect, useState } from "react";
+import { useSetRecoilState } from "recoil";
+import { io } from "socket.io-client";
 import styled from "styled-components";
+import { playerListState } from "../../recoil/atoms";
 import InputComp from "../InputComp";
 import RoomButton from "../RoomButton";
 
+const socket = io(process.env.REACT_APP_ENDPOINT!);
+
 const Logger = () => {
-  const [roomId, setRoomId] = useState("");
-  const click = () => {
-    console.log(roomId);
+  const [joinedRoom, setJoinedRoom] = useState("");
+  const [createdRoom, setCreatedRoom] = useState("");
+  const [username, setUsername] = useState("");
+  const [isJoined, setIsJoined] = useState(false);
+  const setPlayersList = useSetRecoilState(playerListState);
+
+  useEffect(() => {
+    socket.on("joined_room", (data) => {
+      setIsJoined(data.joined);
+    });
+
+    socket.on("party_members", (data) => {
+      setPlayersList(data.players);
+    });
+  }, []);
+
+  const joinRoom = () => {
+    const sendData = { roomId: createdRoom || joinedRoom, username: username };
+    socket.emit("join_room", sendData);
+  };
+
+  const generateRoom = () => {
+    const id = nanoid();
+    setCreatedRoom(id);
   };
 
   return (
@@ -30,34 +57,31 @@ const Logger = () => {
               <Button>
                 <FontAwesomeIcon icon={faPlus} />
               </Button>
-              <InputComp
-                placeHolder="Username..."
-                onClick={click}
-                onChange={setRoomId}
-              />
+              <InputComp placeHolder="Username..." onChange={setUsername} />
             </InputDiv>
           </div>
           <div>
             <Label>Join Room</Label>
             <InputDiv>
-              <Button>
+              <Button onClick={joinRoom}>
                 <FontAwesomeIcon icon={faPlus} />
               </Button>
-              <InputComp
-                placeHolder="Room Code..."
-                onClick={click}
-                onChange={setRoomId}
-              />
+              <InputComp placeHolder="Room Code..." onChange={setJoinedRoom} />
             </InputDiv>
           </div>
           <div>
             <Label>Create Room</Label>
             <InputDiv>
-              <Button>
+              <Button onClick={joinRoom}>
                 <FontAwesomeIcon icon={faPlus} />
               </Button>
-              <InputComp onClick={click} onChange={setRoomId} />
-              <Button>
+              <InputComp
+                readOnly={true}
+                value={createdRoom}
+                onChange={setCreatedRoom}
+                placeHolder="Generate Room..."
+              />
+              <Button onClick={generateRoom}>
                 <FontAwesomeIcon icon={faArrowRotateRight} />
               </Button>
             </InputDiv>
@@ -65,8 +89,21 @@ const Logger = () => {
         </SectionConmtainer>
         <SectionConmtainer>
           <Title>Actions</Title>
-          <RoomButton icon={faPlay} label="Start Game" />
-          <RoomButton icon={faArrowRightFromBracket} label="Leave Room" />
+          {isJoined && (
+            <>
+              <RoomButton
+                icon={faPlay}
+                label="Start Game"
+                isJoined={isJoined}
+              />
+              <RoomButton
+                icon={faArrowRightFromBracket}
+                label="Leave Room"
+                isJoined={isJoined}
+              />
+            </>
+          )}
+
           <RoomButton icon={faBars} label="To Menu" />
         </SectionConmtainer>
       </Menu>

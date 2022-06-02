@@ -3,16 +3,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import styled from "styled-components";
 
-const RoomButton: React.FC<{ icon: IconDefinition; label: string }> = ({
-  icon,
-  label,
-}) => {
+const RoomButton: React.FC<{
+  icon: IconDefinition;
+  label: string;
+  isJoined?: boolean;
+}> = ({ icon, label, isJoined }) => {
+  if (isJoined === false) {
+    return (
+      <NavigationButton disabled>
+        <IconSquare>
+          <FontAwesomeIcon icon={icon} />
+        </IconSquare>
+
+        <Label>{label}</Label>
+      </NavigationButton>
+    );
+  }
+
   return (
-    <NavigationButton>
+    <NavigationButton onClick={() => console.log("log", isJoined)}>
       <IconSquare>
         <FontAwesomeIcon icon={icon} />
       </IconSquare>
-
       <Label>{label}</Label>
     </NavigationButton>
   );

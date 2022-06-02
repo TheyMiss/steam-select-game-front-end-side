@@ -3,13 +3,29 @@ import styled from "styled-components";
 const InputComp: React.FC<{
   placeHolder?: string;
   onChange: (value: string) => void;
-  onClick?: (value: string) => void;
-}> = ({ placeHolder, onChange, onClick }) => {
+  value?: string;
+  readOnly?: boolean;
+  onClick?: () => void;
+}> = ({ placeHolder, onChange, value, readOnly, onClick }) => {
+  if (readOnly) {
+    return (
+      <Input
+        type="text"
+        placeholder={placeHolder}
+        onChange={(e) => onChange(e.target.value)}
+        onClick={() => navigator.clipboard.writeText(value!)}
+        value={value}
+        readOnly
+      />
+    );
+  }
+
   return (
     <Input
       type="text"
       placeholder={placeHolder}
       onChange={(e) => onChange(e.target.value)}
+      value={value}
     />
   );
 };
