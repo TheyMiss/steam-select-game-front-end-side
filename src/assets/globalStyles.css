@@ -2,5 +2,10 @@ body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: "IBM Plex Sans Thai Looped", sans-serif;
+}
+
+button,
+a {
   font-family: "Lalezar", cursive;
 }
