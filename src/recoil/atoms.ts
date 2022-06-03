@@ -14,3 +14,8 @@ export const isJoinedState = atom({
   key: "isJoinedState",
   default: false,
 });
+
+export const gameDataState = atom({
+  key: "gameDataState",
+  default: {},
+});

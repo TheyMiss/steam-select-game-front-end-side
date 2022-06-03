@@ -7,7 +7,8 @@ const RoomButton: React.FC<{
   icon: IconDefinition;
   label: string;
   isJoined?: boolean;
-}> = ({ icon, label, isJoined }) => {
+  onClick?: () => void;
+}> = ({ icon, label, isJoined, onClick }) => {
   if (isJoined === false) {
     return (
       <NavigationButton disabled>
@@ -21,7 +22,7 @@ const RoomButton: React.FC<{
   }
 
   return (
-    <NavigationButton onClick={() => console.log("log", isJoined)}>
+    <NavigationButton onClick={onClick}>
       <IconSquare>
         <FontAwesomeIcon icon={icon} />
       </IconSquare>

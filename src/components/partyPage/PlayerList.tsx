@@ -4,8 +4,15 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { playerListState } from "../../recoil/atoms";
 
+interface IPlayerList {
+  username: string;
+  points: string;
+}
+
 const PlayerList = () => {
-  const playerList = useRecoilValue<Record<string, string>>(playerListState);
+  const playerList =
+    useRecoilValue<Record<string, IPlayerList>>(playerListState);
+
   return (
     <Container>
       <Title>Players</Title>
@@ -14,14 +21,14 @@ const PlayerList = () => {
           <PlayerCard key={id}>
             <PlayerDiv>
               <p>{i + 1}</p>
-              <p>{playerList[id]}</p>
+              <p>{playerList[id].username}</p>
               <PlayerIcon>
                 <FontAwesomeIcon icon={faUser} />
               </PlayerIcon>
             </PlayerDiv>
             <PlayerDiv>
               <p>Points</p>
-              <p>0</p>
+              <p>{playerList[id].points}</p>
               <PlayerIcon>
                 <FontAwesomeIcon icon={faStar} />
               </PlayerIcon>

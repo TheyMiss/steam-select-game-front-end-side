@@ -5,29 +5,61 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import RoomButton from "../RoomButton";
-import { io } from "socket.io-client";
-import { useRecoilState } from "recoil";
-import { isJoinedState } from "../../recoil/atoms";
-
-const socket = io(process.env.REACT_APP_ENDPOINT!);
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  gameDataState,
+  isJoinedState,
+  joinedRoomIdState,
+  playerListState,
+} from "../../recoil/atoms";
+import { socket } from "../../conts/socket";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Actions = () => {
   const [isJoined] = useRecoilState(isJoinedState);
+  const setPlayersList = useSetRecoilState(playerListState);
+  const setGameData = useSetRecoilState(gameDataState);
+  const [currentRoomId, setCurrentRoomId] = useRecoilState(joinedRoomIdState);
+  const navigate = useNavigate();
+
+  const startGame = () => {
+    socket.emit("start_game", currentRoomId);
+    navigate("/game");
+  };
+
+  const leaveRoom = () => {
+    socket.emit("leave_room", currentRoomId);
+    setPlayersList({});
+    setCurrentRoomId("-");
+  };
+
+  useEffect(() => {
+    socket.on("send_data", (data) => {
+      setGameData(data);
+    });
+  }, []);
 
   return (
     <SectionContainer>
       {isJoined && (
         <>
-          <RoomButton icon={faPlay} label="Start Game" isJoined={isJoined} />
+          <RoomButton
+            icon={faPlay}
+            label="Start Game"
+            isJoined={isJoined}
+            onClick={startGame}
+          />
           <RoomButton
             icon={faArrowRightFromBracket}
             label="Leave Room"
             isJoined={isJoined}
+            onClick={leaveRoom}
           />
         </>
       )}
 
-      <RoomButton icon={faBars} label="To Menu" />
+      <RoomButton icon={faBars} label="To Menu" onClick={() => navigate("/")} />
     </SectionContainer>
   );
 };

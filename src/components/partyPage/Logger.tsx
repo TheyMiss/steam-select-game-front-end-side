@@ -7,16 +7,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
-import { io } from "socket.io-client";
 import styled from "styled-components";
 import {
   isJoinedState,
   joinedRoomIdState,
   playerListState,
 } from "../../recoil/atoms";
+import { socket } from "../../conts/socket";
 import InputComp from "../InputComp";
-
-const socket = io(process.env.REACT_APP_ENDPOINT!);
 
 const Logger = () => {
   const setJoinedRoomId = useSetRecoilState(joinedRoomIdState);
@@ -26,14 +24,14 @@ const Logger = () => {
   const [createdRoom, setCreatedRoom] = useState("");
   const [username, setUsername] = useState("");
 
-  const joinRoom = () => {
-    const sendData = { roomId: createdRoom || joinedRoom, username: username };
-    socket.emit("join_room", sendData);
-  };
-
   const generateRoom = () => {
     const id = nanoid();
     setCreatedRoom(id);
+  };
+
+  const joinRoom = () => {
+    const sendData = { roomId: createdRoom || joinedRoom, username: username };
+    socket.emit("join_room", sendData);
   };
 
   useEffect(() => {
