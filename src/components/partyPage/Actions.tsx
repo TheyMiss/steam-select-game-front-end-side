@@ -11,6 +11,7 @@ import {
   isJoinedState,
   joinedRoomIdState,
   playerListState,
+  scoreBoardDataState,
 } from "../../recoil/atoms";
 import { socket } from "../../conts/socket";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +21,7 @@ const Actions = () => {
   const [isJoined] = useRecoilState(isJoinedState);
   const setPlayersList = useSetRecoilState(playerListState);
   const setGameData = useSetRecoilState(gameDataState);
+  const setScoreBoardData = useSetRecoilState(scoreBoardDataState);
   const [currentRoomId, setCurrentRoomId] = useRecoilState(joinedRoomIdState);
   const navigate = useNavigate();
 
@@ -36,7 +38,7 @@ const Actions = () => {
 
   useEffect(() => {
     socket.on("send_data", (data) => {
-      setGameData(data);
+      setGameData(data.games);
     });
   }, []);
 

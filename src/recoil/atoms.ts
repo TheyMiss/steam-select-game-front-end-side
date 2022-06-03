@@ -15,7 +15,20 @@ export const isJoinedState = atom({
   default: false,
 });
 
-export const gameDataState = atom({
+interface IGameData {
+  id: string;
+  name: string;
+  image: string;
+  price: string;
+  reviews: number;
+}
+
+export const gameDataState = atom<IGameData[]>({
   key: "gameDataState",
+  default: [],
+});
+
+export const scoreBoardDataState = atom({
+  key: "ScoreBoardDataState",
   default: {},
 });
