@@ -1,8 +1,13 @@
 import { atom } from "recoil";
 
-export const playerListState = atom({
-  key: "playerListState",
-  default: {},
+export const playersTableState = atom({
+  key: "playersTableState",
+  default: [],
+});
+
+export const currentPlayerIdState = atom({
+  key: "currentPlayerIdState",
+  default: "",
 });
 
 export const joinedRoomIdState = atom({
@@ -16,19 +21,26 @@ export const isJoinedState = atom({
 });
 
 interface IGameData {
-  id: string;
-  name: string;
-  image: string;
-  price: string;
-  reviews: number;
+  games: {
+    id: string;
+    name: string;
+    image: string;
+    price: string;
+    reviews: number;
+  }[];
+  playerBoard: {
+    players: Record<string, { username: string; points: number }>;
+  };
+  points: number;
+  round: number;
 }
 
-export const gameDataState = atom<IGameData[]>({
+export const gameDataState = atom<IGameData>({
   key: "gameDataState",
-  default: [],
-});
-
-export const scoreBoardDataState = atom({
-  key: "ScoreBoardDataState",
-  default: {},
+  default: {
+    games: [{ id: "", name: "", image: "", price: "", reviews: 0 }],
+    playerBoard: { players: { "": { username: "", points: 0 } } },
+    points: 0,
+    round: 0,
+  },
 });

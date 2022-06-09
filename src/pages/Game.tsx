@@ -1,39 +1,21 @@
-import React from "react";
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import PlayGround from "../components/gamePage/PlayGround";
-import ScoreBoard from "../components/gamePage/ScoreBoard";
-import { gameDataState } from "../recoil/atoms";
-
-interface IGameData {
-  games: {
-    id: string;
-    name: string;
-    image: string;
-    price: string;
-    reviews: number;
-  }[];
-  points: number;
-  scoreBoard: {
-    players: Record<string, { username: string; points: number }>;
-  };
-}
+import PlayerBoard from "../components/gamePage/PlayerBoard";
 
 const Game = () => {
-  // const [gameData] = useRecoilState<IGameData | {}>(gameDataState);
-
   return (
     <Container>
       <PlayGround />
-      <ScoreBoard />
+      <PlayerBoard />
     </Container>
   );
 };
 
 const Container = styled.div`
   display: flex;
+  flex-direction: row;
   height: 100vh;
-  background-color: #1b2839;
+  background-color: #171a21;
 `;
 
 export default Game;

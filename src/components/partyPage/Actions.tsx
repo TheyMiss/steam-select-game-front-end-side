@@ -10,8 +10,7 @@ import {
   gameDataState,
   isJoinedState,
   joinedRoomIdState,
-  playerListState,
-  scoreBoardDataState,
+  playersTableState,
 } from "../../recoil/atoms";
 import { socket } from "../../conts/socket";
 import { useNavigate } from "react-router-dom";
@@ -19,9 +18,8 @@ import { useEffect } from "react";
 
 const Actions = () => {
   const [isJoined] = useRecoilState(isJoinedState);
-  const setPlayersList = useSetRecoilState(playerListState);
+  const setPlayersList = useSetRecoilState(playersTableState);
   const setGameData = useSetRecoilState(gameDataState);
-  const setScoreBoardData = useSetRecoilState(scoreBoardDataState);
   const [currentRoomId, setCurrentRoomId] = useRecoilState(joinedRoomIdState);
   const navigate = useNavigate();
 
@@ -32,15 +30,15 @@ const Actions = () => {
 
   const leaveRoom = () => {
     socket.emit("leave_room", currentRoomId);
-    setPlayersList({});
+    setPlayersList([]);
     setCurrentRoomId("-");
   };
 
   useEffect(() => {
     socket.on("send_data", (data) => {
-      setGameData(data.games);
+      setGameData(data);
     });
-  }, []);
+  });
 
   return (
     <SectionContainer>

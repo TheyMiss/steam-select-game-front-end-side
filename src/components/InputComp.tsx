@@ -6,7 +6,7 @@ const InputComp: React.FC<{
   value?: string;
   readOnly?: boolean;
   onClick?: () => void;
-}> = ({ placeHolder, onChange, value, readOnly, onClick }) => {
+}> = ({ placeHolder, onChange, value, readOnly }) => {
   if (readOnly) {
     return (
       <Input

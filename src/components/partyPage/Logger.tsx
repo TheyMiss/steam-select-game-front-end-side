@@ -9,9 +9,10 @@ import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import {
+  currentPlayerIdState,
   isJoinedState,
   joinedRoomIdState,
-  playerListState,
+  playersTableState,
 } from "../../recoil/atoms";
 import { socket } from "../../conts/socket";
 import InputComp from "../InputComp";
@@ -19,7 +20,8 @@ import InputComp from "../InputComp";
 const Logger = () => {
   const setJoinedRoomId = useSetRecoilState(joinedRoomIdState);
   const setIsJoined = useSetRecoilState(isJoinedState);
-  const setPlayersList = useSetRecoilState(playerListState);
+  const setPlayersTable = useSetRecoilState(playersTableState);
+  const currentPlayerId = useSetRecoilState(currentPlayerIdState);
   const [joinedRoom, setJoinedRoom] = useState("");
   const [createdRoom, setCreatedRoom] = useState("");
   const [username, setUsername] = useState("");
@@ -38,9 +40,10 @@ const Logger = () => {
     socket.on("joined_room", (data) => {
       setJoinedRoomId(data.roomId);
       setIsJoined(data.joined);
+      currentPlayerId(data.uid);
     });
-    socket.on("party_members", (data) => {
-      setPlayersList(data.players);
+    socket.on("players_table", (data) => {
+      setPlayersTable(data);
     });
   }, []);
 
@@ -117,7 +120,6 @@ const Button = styled.button`
 const IconSquare = styled.div`
   display: inline-block;
   line-height: 0.5rem;
-  width: 1rem;
   text-align: center;
   border-radius: 0.3rem;
   padding: 1rem 1rem;

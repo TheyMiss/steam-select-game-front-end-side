@@ -1,6 +1,6 @@
 import Options from "../components/partyPage/Options";
 import styled from "styled-components";
-import PlayerList from "../components/partyPage/PlayerList";
+import PlayerList from "../components/PlayersTable";
 import Header from "../components/partyPage/Header";
 
 const Party = () => {

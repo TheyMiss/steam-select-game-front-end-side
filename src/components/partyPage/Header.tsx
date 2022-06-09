@@ -2,11 +2,11 @@ import { faHouse, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { joinedRoomIdState, playerListState } from "../../recoil/atoms";
+import { joinedRoomIdState, playersTableState } from "../../recoil/atoms";
 
 const Header = () => {
   const currentRoomId = useRecoilValue(joinedRoomIdState);
-  const playerList = useRecoilValue<Record<string, string>>(playerListState);
+  const playerList = useRecoilValue(playersTableState);
   const playerInRoom = Object.keys(playerList).length;
 
   return (
@@ -41,7 +41,6 @@ const Container = styled.div`
 const IconSquare = styled.div`
   display: inline-block;
   line-height: 0.5rem;
-  width: 1rem;
   text-align: center;
   border-radius: 0.3rem;
   padding: 1rem 1rem;

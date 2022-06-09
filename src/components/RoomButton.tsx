@@ -56,7 +56,7 @@ const Label = styled.p`
 const IconSquare = styled.div`
   display: inline-block;
   line-height: 0.5rem;
-  width: 1rem;
+
   text-align: center;
   border-radius: 0.3rem;
   padding: 1rem 1rem;
