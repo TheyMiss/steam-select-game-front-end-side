@@ -1,20 +1,52 @@
-import { useRecoilState } from "recoil";
+import { useEffect } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { socket } from "../../conts/socket";
-import { gameDataState, joinedRoomIdState } from "../../recoil/atoms";
+import {
+  gameDataState,
+  gameInfoState,
+  isOpenModalState,
+  joinedRoomIdState,
+  navigateToState,
+  playersTableState,
+} from "../../recoil/atoms";
 
 const GameCard = () => {
-  const [gameData] = useRecoilState(gameDataState);
+  const [gameData, setGameData] = useRecoilState(gameDataState);
   const [roomId] = useRecoilState(joinedRoomIdState);
+  const setGameInfo = useSetRecoilState(gameInfoState);
+  const setIsOpen = useSetRecoilState(isOpenModalState);
+  const setNavigateTo = useSetRecoilState(navigateToState);
+  const setPlayersList = useSetRecoilState(playersTableState);
 
   const sendSelectedGame = (gameId: string) => {
     socket.emit("selected_game", { gameId: gameId, roomId: roomId });
   };
 
+  useEffect(() => {
+    setPlayersList([]);
+    socket.emit("get_data", roomId);
+
+    socket.on("send_data", (data) => {
+      setGameInfo(data.gameInfo);
+
+      if (data.gameInfo.round !== 5) {
+        setGameData(data.games);
+      }
+    });
+
+    socket.on("end_game", () => {
+      setTimeout(() => {
+        setNavigateTo("/party");
+        setIsOpen(true);
+      }, 1000 * 3);
+    });
+  }, []);
+
   return (
     <>
-      {gameData.games &&
-        gameData.games.map((game, index) => {
+      {gameData &&
+        gameData.map((game, index) => {
           const mappedGameNum = 1;
 
           return (

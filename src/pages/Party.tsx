@@ -2,10 +2,15 @@ import Options from "../components/partyPage/Options";
 import styled from "styled-components";
 import PlayerList from "../components/PlayersTable";
 import Header from "../components/partyPage/Header";
+import { isOpenModalState } from "../recoil/atoms";
+import { useRecoilState } from "recoil";
+import Modal from "../components/Modal";
 
 const Party = () => {
+  const [isOpen, setIsOpen] = useRecoilState(isOpenModalState);
   return (
     <Container>
+      {isOpen && <Modal />}
       <Options />
 
       <RoomSection>

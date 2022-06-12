@@ -1,16 +1,16 @@
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { gameDataState } from "../../recoil/atoms";
+import { gameInfoState } from "../../recoil/atoms";
 import PlayerList from "../PlayersTable";
 
 const PlayerBoard = () => {
-  const [gameData] = useRecoilState(gameDataState);
+  const [gameInfo] = useRecoilState(gameInfoState);
 
   return (
     <Container>
       <GameInfo>
-        <p>Rounds {gameData.round}</p>
-        <p>Points {gameData.points}</p>
+        <p>Rounds {gameInfo.round}</p>
+        <p>Points {gameInfo.points}</p>
       </GameInfo>
       <PlayerList />
     </Container>

@@ -8,8 +8,9 @@ const RoomButton: React.FC<{
   label: string;
   isJoined?: boolean;
   onClick?: () => void;
-}> = ({ icon, label, isJoined, onClick }) => {
-  if (isJoined === false) {
+  isDisabled?: boolean;
+}> = ({ icon, label, isJoined, onClick, isDisabled }) => {
+  if (isJoined === false || isDisabled) {
     return (
       <NavigationButton disabled>
         <IconSquare>
@@ -39,10 +40,16 @@ const NavigationButton = styled.button`
   width: 100%;
   border-radius: 0.3rem;
   transition: all;
+  background-color: #243a56;
   cursor: pointer;
   &:hover {
-    background-color: #243a56;
+    background-color: #244672;
     transition-delay: 100ms;
+  }
+
+  &:disabled {
+    background-color: #3b424b;
+    cursor: context-menu;
   }
 `;
 
@@ -56,11 +63,9 @@ const Label = styled.p`
 const IconSquare = styled.div`
   display: inline-block;
   line-height: 0.5rem;
-
   text-align: center;
   border-radius: 0.3rem;
   padding: 1rem 1rem;
-  background-color: #243a56;
   color: white;
 `;
 

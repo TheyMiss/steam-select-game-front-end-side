@@ -20,27 +20,39 @@ export const isJoinedState = atom({
   default: false,
 });
 
+export const isOpenModalState = atom({
+  key: "isOpenModalState",
+  default: false,
+});
+
 interface IGameData {
-  games: {
-    id: string;
-    name: string;
-    image: string;
-    price: string;
-    reviews: number;
-  }[];
-  playerBoard: {
-    players: Record<string, { username: string; points: number }>;
-  };
-  points: number;
-  round: number;
+  id: string;
+  name: string;
+  image: string;
+  price: string;
+  reviews: number;
 }
 
-export const gameDataState = atom<IGameData>({
+export const gameDataState = atom<IGameData[]>({
   key: "gameDataState",
-  default: {
-    games: [{ id: "", name: "", image: "", price: "", reviews: 0 }],
-    playerBoard: { players: { "": { username: "", points: 0 } } },
-    points: 0,
-    round: 0,
-  },
+  default: [],
+});
+
+interface IGameInfoState {
+  round: number;
+  points: number;
+}
+
+export const gameInfoState = atom<IGameInfoState>({
+  key: "gameInfoState",
+  default: { round: 0, points: 0 },
+});
+
+export const isRoomPlayingState = atom({
+  key: "isRoomPlayingState",
+  default: false,
+});
+export const navigateToState = atom({
+  key: "navigateToState",
+  default: "/",
 });

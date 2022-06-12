@@ -1,10 +1,16 @@
 import styled from "styled-components";
 import PlayGround from "../components/gamePage/PlayGround";
 import PlayerBoard from "../components/gamePage/PlayerBoard";
+import { useRecoilState } from "recoil";
+import { isOpenModalState } from "../recoil/atoms";
+import Modal from "../components/Modal";
 
 const Game = () => {
+  const [isOpen, setIsOpen] = useRecoilState(isOpenModalState);
+
   return (
     <Container>
+      {isOpen && <Modal />}
       <PlayGround />
       <PlayerBoard />
     </Container>
