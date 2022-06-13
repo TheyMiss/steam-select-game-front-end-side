@@ -16,13 +16,17 @@ import {
 } from "../../recoil/atoms";
 import { socket } from "../../conts/socket";
 import InputComp from "../InputComp";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { LoggerSchema } from "../../schema/Logger.schema";
+import Tooltip from "../ToolTip";
+import { blTheme } from "../../themes/ToolTip.themes";
 
 const Logger = () => {
   const setJoinedRoomId = useSetRecoilState(joinedRoomIdState);
   const setIsJoined = useSetRecoilState(isJoinedState);
   const setPlayersTable = useSetRecoilState(playersTableState);
   const currentPlayerId = useSetRecoilState(currentPlayerIdState);
-  const [joinedRoom, setJoinedRoom] = useState("");
+  // const [joinedRoom, setJoinedRoom] = useState("");
   const [createdRoom, setCreatedRoom] = useState("");
   const [username, setUsername] = useState("");
 
@@ -31,8 +35,15 @@ const Logger = () => {
     setCreatedRoom(id);
   };
 
-  const joinRoom = () => {
-    const sendData = { roomId: createdRoom || joinedRoom, username: username };
+  const handleJoin = (values: {
+    username: string;
+    createdRoom: string;
+    joinedRoom: string;
+  }) => {
+    const sendData = {
+      roomId: values.createdRoom || values.joinedRoom,
+      username: values.username,
+    };
     socket.emit("join_room", sendData);
   };
 
@@ -49,41 +60,96 @@ const Logger = () => {
 
   return (
     <Container>
-      <div>
-        <Label>Username</Label>
-        <InputDiv>
-          <IconSquare>
-            <FontAwesomeIcon icon={faUser} />
-          </IconSquare>
-          <InputComp placeHolder="Username..." onChange={setUsername} />
-        </InputDiv>
-      </div>
-      <div>
-        <Label>Join Room</Label>
-        <InputDiv>
-          <Button onClick={joinRoom}>
-            <FontAwesomeIcon icon={faPlus} />
-          </Button>
-          <InputComp placeHolder="Room Code..." onChange={setJoinedRoom} />
-        </InputDiv>
-      </div>
-      <div>
-        <Label>Create Room</Label>
-        <InputDiv>
-          <Button onClick={joinRoom}>
-            <FontAwesomeIcon icon={faPlus} />
-          </Button>
-          <InputComp
-            readOnly={true}
-            value={createdRoom}
-            onChange={setCreatedRoom}
-            placeHolder="Generate Room..."
-          />
-          <Button onClick={generateRoom}>
-            <FontAwesomeIcon icon={faArrowRotateRight} />
-          </Button>
-        </InputDiv>
-      </div>
+      <Formik
+        enableReinitialize={true}
+        initialValues={{
+          username: username,
+          createdRoom: createdRoom,
+          joinedRoom: "",
+        }}
+        onSubmit={(values) => handleJoin(values)}
+        validationSchema={LoggerSchema}
+      >
+        {(formik) => {
+          return (
+            <Form>
+              <div>
+                <ErrorMessage
+                  name="username"
+                  render={(msg) => <ErrorMessageDiv>{msg}</ErrorMessageDiv>}
+                />
+                <Label>Username</Label>
+                <InputDiv>
+                  <IconSquare>
+                    <FontAwesomeIcon icon={faUser} />
+                  </IconSquare>
+                  <Field
+                    as={InputComp}
+                    name="username"
+                    type="text"
+                    placeHolder="Username..."
+                    value={formik.values.username}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setUsername(e.target.value)
+                    }
+                  />
+                </InputDiv>
+              </div>
+              <div>
+                <ErrorMessage
+                  name="joinedRoom"
+                  render={(msg) => <ErrorMessageDiv>{msg}</ErrorMessageDiv>}
+                />
+                <Label>Join Room</Label>
+                <InputDiv>
+                  <Button type="submit">
+                    <FontAwesomeIcon icon={faPlus} />
+                  </Button>
+                  <Field
+                    as={InputComp}
+                    name="joinedRoom"
+                    placeHolder="Join Room..."
+                    value={formik.values.joinedRoom}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      formik.setFieldValue("joinedRoom", e.target.value)
+                    }
+                  />
+                </InputDiv>
+              </div>
+              <div>
+                <ErrorMessage
+                  name="createdRoom"
+                  render={(msg) => <ErrorMessageDiv>{msg}</ErrorMessageDiv>}
+                />
+                <Label>Create Room</Label>
+                <InputDiv>
+                  <Button type="submit">
+                    <FontAwesomeIcon icon={faPlus} />
+                  </Button>
+                  <Tooltip toolTipText={"Click to copy"} theme={blTheme}>
+                    <Field
+                      as={InputComp}
+                      name="createdRoom"
+                      placeHolder="Room Code..."
+                      value={formik.values.createdRoom}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        formik.setFieldValue("createdRoom", e.target.value)
+                      }
+                      onClick={() =>
+                        navigator.clipboard.writeText(formik.values.createdRoom)
+                      }
+                      readOnly={true}
+                    />
+                  </Tooltip>
+                  <Button type="button" onClick={generateRoom}>
+                    <FontAwesomeIcon icon={faArrowRotateRight} />
+                  </Button>
+                </InputDiv>
+              </div>
+            </Form>
+          );
+        }}
+      </Formik>
     </Container>
   );
 };
@@ -125,6 +191,11 @@ const IconSquare = styled.div`
   padding: 1rem 1rem;
   background-color: #243a56;
   color: white;
+`;
+
+const ErrorMessageDiv = styled.div`
+  color: #ff6d6d;
+  padding: 1rem 0 0 0;
 `;
 
 export default Logger;
