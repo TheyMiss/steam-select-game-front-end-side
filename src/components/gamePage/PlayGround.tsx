@@ -15,8 +15,8 @@ const PlayGround = () => {
 };
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: auto;
   justify-content: center;
   align-items: center;
   width: 60%;
@@ -24,7 +24,6 @@ const Container = styled.div`
 
 const Info = styled.div`
   font-size: 2rem;
-  padding: 5rem 0;
 `;
 
 const Title = styled.p`

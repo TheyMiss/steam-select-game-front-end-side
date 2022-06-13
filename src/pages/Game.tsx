@@ -6,7 +6,7 @@ import { isOpenModalState } from "../recoil/atoms";
 import Modal from "../components/Modal";
 
 const Game = () => {
-  const [isOpen, setIsOpen] = useRecoilState(isOpenModalState);
+  const [isOpen] = useRecoilState(isOpenModalState);
 
   return (
     <Container>

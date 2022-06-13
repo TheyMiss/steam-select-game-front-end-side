@@ -21,6 +21,8 @@ const GameCard = () => {
   const setPlayersList = useSetRecoilState(playersTableState);
 
   const sendSelectedGame = (gameId: string) => {
+    console.log(gameId);
+
     socket.emit("selected_game", { gameId: gameId, roomId: roomId });
   };
 
@@ -49,46 +51,56 @@ const GameCard = () => {
   }
 
   return (
-    <>
-      {gameData &&
-        gameData.map((game, index) => {
-          const mappedGameNum = 1;
-
-          return (
-            <div key={game.id}>
-              {mappedGameNum === index && (
-                <HorizontalLines>
-                  <div />
-                  <div />
-                </HorizontalLines>
-              )}
-
-              <GameCardDiv onClick={() => sendSelectedGame(game.id)}>
-                <p>{game.name}</p>
-                <Image src={game.image} alt={game.id} />
-              </GameCardDiv>
-            </div>
-          );
-        })}
-    </>
+    <div>
+      <GameCardDiv onClick={() => sendSelectedGame(gameData[0].id)}>
+        <Title>{gameData[0].name}</Title>
+        <Image src={gameData[0].image} />
+      </GameCardDiv>
+      <HorizontalLines>
+        <div />
+        <div />
+      </HorizontalLines>
+      <GameCardDiv onClick={() => sendSelectedGame(gameData[1].id)}>
+        <Title>{gameData[1].name}</Title>
+        <Image src={gameData[1].image} />
+      </GameCardDiv>
+    </div>
   );
 };
 
 const GameCardDiv = styled.div`
-  background-color: #1b2839;
-  padding: 0 1rem;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 275px;
   border-radius: 0.3rem;
   cursor: pointer;
-  p {
-    color: white;
-    font-size: 1.5rem;
-    padding: 1rem 0;
+  transition: all;
+  &:hover p {
+    background-color: white;
+    color: black;
+  }
+  &:hover img {
+    border: 0.5rem solid white;
   }
 `;
 
 const Image = styled.img`
   background-position: center;
   object-fit: cover;
+  border-radius: 0.3rem;
+  border: 0.5rem solid #1b2839;
+`;
+
+const Title = styled.p`
+  position: absolute;
+  bottom: 0;
+  color: white;
+  font-size: 1.2rem;
+  width: 100%;
+  background-color: #1b2839d6;
+  padding: 0.5rem 1rem;
 `;
 
 const HorizontalLines = styled.div`
