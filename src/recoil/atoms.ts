@@ -62,3 +62,16 @@ export const errorMsg = atom({
   key: "errorMsg",
   default: "",
 });
+
+export const usernameState = atom({
+  key: "usernameState",
+  default: "",
+});
+export const createdRoomState = atom({
+  key: "createdRoomState",
+  default: "",
+});
+export const joinedRoomState = atom({
+  key: "joinedRoomState",
+  default: "",
+});

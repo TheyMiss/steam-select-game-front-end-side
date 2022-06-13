@@ -6,13 +6,16 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import {
+  createdRoomState,
   currentPlayerIdState,
   isJoinedState,
   joinedRoomIdState,
+  joinedRoomState,
   playersTableState,
+  usernameState,
 } from "../../recoil/atoms";
 import { socket } from "../../conts/socket";
 import InputComp from "../InputComp";
@@ -26,9 +29,9 @@ const Logger = () => {
   const setIsJoined = useSetRecoilState(isJoinedState);
   const setPlayersTable = useSetRecoilState(playersTableState);
   const currentPlayerId = useSetRecoilState(currentPlayerIdState);
-  // const [joinedRoom, setJoinedRoom] = useState("");
-  const [createdRoom, setCreatedRoom] = useState("");
-  const [username, setUsername] = useState("");
+  const [joinedRoom, setJoinedRoom] = useRecoilState(joinedRoomState);
+  const [createdRoom, setCreatedRoom] = useRecoilState(createdRoomState);
+  const [username, setUsername] = useRecoilState(usernameState);
 
   const generateRoom = () => {
     const id = nanoid();
@@ -65,7 +68,7 @@ const Logger = () => {
         initialValues={{
           username: username,
           createdRoom: createdRoom,
-          joinedRoom: "",
+          joinedRoom: joinedRoom,
         }}
         onSubmit={(values) => handleJoin(values)}
         validationSchema={LoggerSchema}
@@ -111,7 +114,7 @@ const Logger = () => {
                     placeHolder="Join Room..."
                     value={formik.values.joinedRoom}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      formik.setFieldValue("joinedRoom", e.target.value)
+                      setJoinedRoom(e.target.value)
                     }
                   />
                 </InputDiv>
@@ -133,7 +136,7 @@ const Logger = () => {
                       placeHolder="Room Code..."
                       value={formik.values.createdRoom}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        formik.setFieldValue("createdRoom", e.target.value)
+                        setCreatedRoom(e.target.value)
                       }
                       onClick={() =>
                         navigator.clipboard.writeText(formik.values.createdRoom)
