@@ -7,6 +7,7 @@ import styled from "styled-components";
 import RoomButton from "./buttons/RoomButton";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
+  errorMsg,
   gameDataState,
   gameInfoState,
   isJoinedState,
@@ -18,19 +19,21 @@ import {
 } from "../../recoil/atoms";
 import { socket } from "../../conts/socket";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import RoomButtonWithToolTip from "./buttons/RoomButtonWithToolTip";
 
 const Actions = () => {
   const [isJoined] = useRecoilState(isJoinedState);
-  const setPlayersList = useSetRecoilState(playersTableState);
+  const [playerList, setPlayersList] = useRecoilState(playersTableState);
   const [currentRoomId, setCurrentRoomId] = useRecoilState(joinedRoomIdState);
   const setIsOpen = useSetRecoilState(isOpenModalState);
   const [isRoomPlaying, setIsRoomPlaying] = useRecoilState(isRoomPlayingState);
   const setNavigateTo = useSetRecoilState(navigateToState);
   const setGameInfo = useSetRecoilState(gameInfoState);
   const setGameData = useSetRecoilState(gameDataState);
+  const [errMsg, setErrMsg] = useRecoilState(errorMsg);
   const navigate = useNavigate();
+  const [disabled, setDisabled] = useState(false);
 
   const startGame = () => {
     setGameInfo({ round: 0, points: 0 });
@@ -47,10 +50,14 @@ const Actions = () => {
   };
 
   useEffect(() => {
+    socket.on("start_err_message", (data) => {
+      setErrMsg(data.message);
+    });
+
     socket.on("is_playing", (data) => {
       setIsRoomPlaying(data.isPlaying);
     });
-  }, [isRoomPlaying]);
+  }, [errMsg, setIsRoomPlaying]);
 
   useEffect(() => {
     socket.on("start_game", () => {
@@ -62,6 +69,14 @@ const Actions = () => {
     };
   }, [currentRoomId]);
 
+  useEffect(() => {
+    if (isRoomPlaying || playerList.length <= 1) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [disabled, isRoomPlaying, playerList.length]);
+
   return (
     <SectionContainer>
       {isJoined && (
@@ -71,8 +86,8 @@ const Actions = () => {
             label="Start Game"
             isJoined={isJoined}
             onClick={startGame}
-            isDisabled={isRoomPlaying}
-            helpText="Game is in progress!"
+            isDisabled={disabled}
+            helpText={errMsg}
           />
 
           <RoomButton

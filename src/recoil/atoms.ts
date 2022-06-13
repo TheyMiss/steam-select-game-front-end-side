@@ -52,7 +52,13 @@ export const isRoomPlayingState = atom({
   key: "isRoomPlayingState",
   default: false,
 });
+
 export const navigateToState = atom({
   key: "navigateToState",
   default: "/",
+});
+
+export const errorMsg = atom({
+  key: "errorMsg",
+  default: "",
 });
