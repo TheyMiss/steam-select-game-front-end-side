@@ -10,6 +10,7 @@ import {
   navigateToState,
   playersTableState,
 } from "../../recoil/atoms";
+import Loading from "../Loading";
 
 const GameCard = () => {
   const [gameData, setGameData] = useRecoilState(gameDataState);
@@ -42,6 +43,10 @@ const GameCard = () => {
       }, 1000 * 3);
     });
   }, []);
+
+  if (gameData.length <= 0) {
+    return <Loading />;
+  }
 
   return (
     <>
