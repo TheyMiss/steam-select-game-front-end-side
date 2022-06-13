@@ -38,6 +38,7 @@ const Header = () => {
 
 const Container = styled.div`
   display: flex;
+  align-items: center;
   background-color: #171a21;
   border-radius: 0.3rem;
   padding: 1rem;
