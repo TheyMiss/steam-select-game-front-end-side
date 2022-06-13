@@ -12,15 +12,18 @@ const Modal = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTime((prev) => prev - 1);
+      if (time >= 1) {
+        setTime((prev) => prev - 1);
+        clearInterval(timer);
+      }
 
-      if (time < 0) {
+      if (time <= 0) {
         setIsOpen(false);
         navigate(navigateTo);
         clearInterval(timer);
       }
     }, 1000);
-  }, [time]);
+  }, [navigate, navigateTo, setIsOpen, time]);
 
   return (
     <ModalDiv>

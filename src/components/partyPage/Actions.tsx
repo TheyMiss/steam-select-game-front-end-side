@@ -50,11 +50,7 @@ const Actions = () => {
     socket.on("is_playing", (data) => {
       setIsRoomPlaying(data.isPlaying);
     });
-
-    socket.on("message", (data) => {
-      alert(data.message);
-    });
-  }, []);
+  }, [isRoomPlaying]);
 
   useEffect(() => {
     socket.on("start_game", () => {
