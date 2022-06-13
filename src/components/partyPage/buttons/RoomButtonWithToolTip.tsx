@@ -1,5 +1,6 @@
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
+import { tlTheme } from "../../../themes/ToolTip.themes";
 import Tooltip from "../../ToolTip";
 import RoomButton from "./RoomButton";
 
@@ -13,7 +14,7 @@ const RoomButtonWithToolTip: React.FC<{
 }> = ({ icon, label, isJoined, onClick, isDisabled, helpText }) => {
   if (isDisabled) {
     return (
-      <Tooltip toolTipText={helpText}>
+      <Tooltip toolTipText={helpText} theme={tlTheme}>
         <RoomButton
           icon={icon}
           label={label}

@@ -7,7 +7,7 @@ import { useRecoilState } from "recoil";
 import Modal from "../components/Modal";
 
 const Party = () => {
-  const [isOpen, setIsOpen] = useRecoilState(isOpenModalState);
+  const [isOpen] = useRecoilState(isOpenModalState);
   return (
     <Container>
       {isOpen && <Modal />}

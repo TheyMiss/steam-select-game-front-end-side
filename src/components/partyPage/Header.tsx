@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { joinedRoomIdState, playersTableState } from "../../recoil/atoms";
+import { blTheme, brTheme } from "../../themes/ToolTip.themes";
+import ToolTip from "../ToolTip";
 
 const Header = () => {
   const currentRoomId = useRecoilValue(joinedRoomIdState);
@@ -11,20 +13,25 @@ const Header = () => {
 
   return (
     <Container>
-      <InfoCard>
-        <IconSquare>
-          <FontAwesomeIcon icon={faHouse} />
-        </IconSquare>
-        <SimpleButton
-          onClick={() => navigator.clipboard.writeText(currentRoomId)}
-        >
-          {currentRoomId}
-        </SimpleButton>
-      </InfoCard>
-      <InfoCard>
-        <FontAwesomeIcon icon={faUsers} />
-        <p>{playerInRoom}</p>
-      </InfoCard>
+      <ToolTip toolTipText={"Room ID"} theme={blTheme}>
+        <InfoCard>
+          <IconSquare>
+            <FontAwesomeIcon icon={faHouse} />
+          </IconSquare>
+          <SimpleButton
+            onClick={() => navigator.clipboard.writeText(currentRoomId)}
+          >
+            {currentRoomId}
+          </SimpleButton>
+        </InfoCard>
+      </ToolTip>
+      <ToolTip toolTipText={"Maximum Players In room is 5"} theme={brTheme}>
+        <InfoCard>
+          <FontAwesomeIcon icon={faUsers} />
+
+          <p>{playerInRoom}</p>
+        </InfoCard>
+      </ToolTip>
     </Container>
   );
 };
