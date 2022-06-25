@@ -1,33 +1,18 @@
 import styled from "styled-components";
+import { StyledPlayGround } from "../styles/PlayGround.styled";
 import GameCard from "./GameCard";
 import Timer from "./Timer";
 
 const PlayGround = () => {
   return (
-    <Container>
-      <Info>
-        <Title>Which of these games has more reviews?</Title>
+    <StyledPlayGround>
+      <div>
+        <p>Which of these games has more reviews?</p>
         <Timer />
-      </Info>
+      </div>
       <GameCard />
-    </Container>
+    </StyledPlayGround>
   );
 };
-
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: auto;
-  justify-content: center;
-  align-items: center;
-  width: 60%;
-`;
-
-const Info = styled.div`
-  font-size: 2rem;
-`;
-
-const Title = styled.p`
-  color: white;
-`;
 
 export default PlayGround;

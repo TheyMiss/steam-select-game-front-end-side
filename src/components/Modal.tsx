@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import styled from "styled-components";
 import { isOpenModalState, navigateToState } from "../recoil/atoms";
+import { StyledModal, Timer } from "./styles/Modal.styled";
 
 const Modal = () => {
   const [time, setTime] = useState(3);
@@ -26,43 +26,14 @@ const Modal = () => {
   }, [navigate, navigateTo, setIsOpen, time]);
 
   return (
-    <ModalDiv>
+    <StyledModal>
       <Timer>
         <div>
           <p>{time}</p>
         </div>
       </Timer>
-    </ModalDiv>
+    </StyledModal>
   );
 };
-
-const ModalDiv = styled.div`
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-  text-align: center;
-  height: 100vh;
-  background-color: #0000009e;
-  color: white;
-  z-index: 1;
-`;
-
-const Timer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 35%;
-    height: 25vh;
-    border-radius: 1rem;
-    font-size: 3.5rem;
-  }
-`;
 
 export default Modal;

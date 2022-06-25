@@ -5,12 +5,13 @@ import Header from "../components/partyPage/Header";
 import { isOpenModalState } from "../recoil/atoms";
 import { useRecoilState } from "recoil";
 import Modal from "../components/Modal";
+import { StyledParty } from "../components/styles/Party.styled";
 
 const Party = () => {
   const [isOpen] = useRecoilState(isOpenModalState);
 
   return (
-    <Container>
+    <StyledParty>
       {isOpen && <Modal />}
       <Options />
 
@@ -18,14 +19,9 @@ const Party = () => {
         <Header />
         <PlayerList />
       </RoomSection>
-    </Container>
+    </StyledParty>
   );
 };
-
-const Container = styled.div`
-  display: flex;
-  background-color: #1b2839;
-`;
 
 const RoomSection = styled.div`
   display: flex;

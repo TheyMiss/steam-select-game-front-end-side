@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import { StyledInput } from "./styles/InputComp.styled";
 
 const InputComp: React.FC<{
   placeHolder?: string;
@@ -9,7 +9,7 @@ const InputComp: React.FC<{
 }> = ({ placeHolder, onChange, value, readOnly, onClick }) => {
   if (readOnly || onClick) {
     return (
-      <Input
+      <StyledInput
         theme={readOnly}
         type="text"
         placeholder={placeHolder}
@@ -22,7 +22,7 @@ const InputComp: React.FC<{
   }
 
   return (
-    <Input
+    <StyledInput
       type="text"
       placeholder={placeHolder}
       onChange={onChange}
@@ -30,14 +30,5 @@ const InputComp: React.FC<{
     />
   );
 };
-
-const Input = styled.input`
-  all: unset;
-  background-color: #1b2839;
-  color: white;
-  padding: 0.5rem;
-  border-radius: 0.3rem;
-  ${(props) => props.theme === true && "cursor: pointer"}
-`;
 
 export default InputComp;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Title } from "../styles/Title.styled";
 import Actions from "./Actions";
 import Logger from "./Logger";
 
@@ -30,14 +31,6 @@ const Menu = styled.div`
   padding: 0 1rem;
   justify-content: space-between;
   height: 100%;
-`;
-
-const Title = styled.p`
-  all: unset;
-  color: white;
-  font-size: 1.5rem;
-  font-weight: 100;
-  font-variant: small-caps;
 `;
 
 export default Options;
