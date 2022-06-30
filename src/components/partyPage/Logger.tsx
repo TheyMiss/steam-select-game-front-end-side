@@ -23,6 +23,15 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { LoggerSchema } from "../../schema/Logger.schema";
 import Tooltip from "../ToolTip";
 import { blTheme } from "../../themes/ToolTip.themes";
+import {
+  Button,
+  ErrorMessageDiv,
+  FormStyle,
+  IconSquare,
+  InputDiv,
+  Label,
+  StyledLogger,
+} from "../styles/partyPage/Logger.styled";
 
 const Logger = () => {
   const setJoinedRoomId = useSetRecoilState(joinedRoomIdState);
@@ -62,7 +71,7 @@ const Logger = () => {
   }, []);
 
   return (
-    <Container>
+    <StyledLogger>
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -76,129 +85,93 @@ const Logger = () => {
         {(formik) => {
           return (
             <Form>
-              <div>
-                <ErrorMessage
-                  name="username"
-                  render={(msg) => <ErrorMessageDiv>{msg}</ErrorMessageDiv>}
-                />
-                <Label>Username</Label>
-                <InputDiv>
-                  <IconSquare>
-                    <FontAwesomeIcon icon={faUser} />
-                  </IconSquare>
-                  <Field
-                    as={InputComp}
+              <FormStyle>
+                <div>
+                  <ErrorMessage
                     name="username"
-                    type="text"
-                    placeHolder="Username..."
-                    value={formik.values.username}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      setUsername(e.target.value)
-                    }
+                    render={(msg) => <ErrorMessageDiv>{msg}</ErrorMessageDiv>}
                   />
-                </InputDiv>
-              </div>
-              <div>
-                <ErrorMessage
-                  name="joinedRoom"
-                  render={(msg) => <ErrorMessageDiv>{msg}</ErrorMessageDiv>}
-                />
-                <Label>Join Room</Label>
-                <InputDiv>
-                  <Button type="submit">
-                    <FontAwesomeIcon icon={faPlus} />
-                  </Button>
-                  <Field
-                    as={InputComp}
-                    name="joinedRoom"
-                    placeHolder="Join Room..."
-                    value={formik.values.joinedRoom}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      setJoinedRoom(e.target.value)
-                    }
-                  />
-                </InputDiv>
-              </div>
-              <div>
-                <ErrorMessage
-                  name="createdRoom"
-                  render={(msg) => <ErrorMessageDiv>{msg}</ErrorMessageDiv>}
-                />
-                <Label>Create Room</Label>
-                <InputDiv>
-                  <Button type="submit">
-                    <FontAwesomeIcon icon={faPlus} />
-                  </Button>
-                  <Tooltip toolTipText={"Click to copy"} theme={blTheme}>
+                  <Label>Username</Label>
+                  <InputDiv>
+                    <IconSquare>
+                      <FontAwesomeIcon icon={faUser} />
+                    </IconSquare>
                     <Field
                       as={InputComp}
-                      name="createdRoom"
-                      placeHolder="Room Code..."
-                      value={formik.values.createdRoom}
+                      name="username"
+                      type="text"
+                      placeHolder="Username..."
+                      value={formik.values.username}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setCreatedRoom(e.target.value)
+                        setUsername(e.target.value)
                       }
-                      onClick={() =>
-                        navigator.clipboard.writeText(formik.values.createdRoom)
-                      }
-                      readOnly={true}
                     />
-                  </Tooltip>
-                  <Button type="button" onClick={generateRoom}>
-                    <FontAwesomeIcon icon={faArrowRotateRight} />
-                  </Button>
-                </InputDiv>
-              </div>
+                  </InputDiv>
+                </div>
+                <div>
+                  <ErrorMessage
+                    name="joinedRoom"
+                    render={(msg) => <ErrorMessageDiv>{msg}</ErrorMessageDiv>}
+                  />
+                  <Label>Join Room</Label>
+                  <InputDiv>
+                    <Button type="submit">
+                      <FontAwesomeIcon icon={faPlus} />
+                    </Button>
+                    <Field
+                      as={InputComp}
+                      name="joinedRoom"
+                      placeHolder="Join Room..."
+                      value={formik.values.joinedRoom}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setJoinedRoom(e.target.value)
+                      }
+                    />
+                  </InputDiv>
+                </div>
+                <div>
+                  <ErrorMessage
+                    name="createdRoom"
+                    render={(msg) => <ErrorMessageDiv>{msg}</ErrorMessageDiv>}
+                  />
+                  <Label>Create Room</Label>
+                  <InputDiv>
+                    <Button type="submit">
+                      <FontAwesomeIcon icon={faPlus} />
+                    </Button>
+                    <Tooltip
+                      toolTipText={
+                        "Click to copy or double click to create new room"
+                      }
+                      theme={blTheme}
+                    >
+                      <Field
+                        as={InputComp}
+                        name="createdRoom"
+                        placeHolder="Room Code..."
+                        value={formik.values.createdRoom}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setCreatedRoom(e.target.value)
+                        }
+                        onDoubleClick={generateRoom}
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                            formik.values.createdRoom
+                          );
+                        }}
+                        on
+                        readOnly={true}
+                      />
+                    </Tooltip>
+                  </InputDiv>
+                </div>
+              </FormStyle>
             </Form>
           );
         }}
       </Formik>
-    </Container>
+    </StyledLogger>
   );
 };
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 3rem 0;
-  gap: 1rem;
-`;
-
-const InputDiv = styled.div`
-  position: relative;
-  background-color: #1b2839;
-  border-radius: 0.3rem;
-  width: 100%;
-`;
-
-const Label = styled.p`
-  all: unset;
-  color: white;
-  font-weight: 100;
-  font-variant: small-caps;
-`;
-
-const Button = styled.button`
-  all: unset;
-  background-color: #243a56;
-  color: white;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-`;
-
-const IconSquare = styled.div`
-  display: inline-block;
-  line-height: 0.5rem;
-  text-align: center;
-  border-radius: 0.3rem;
-  padding: 1rem 1rem;
-  background-color: #243a56;
-  color: white;
-`;
-
-const ErrorMessageDiv = styled.div`
-  color: #ff6d6d;
-  padding: 1rem 0 0 0;
-`;
 
 export default Logger;

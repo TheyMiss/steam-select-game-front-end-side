@@ -1,9 +1,14 @@
 import { faHouse, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRecoilValue } from "recoil";
-import styled from "styled-components";
 import { joinedRoomIdState, playersTableState } from "../../recoil/atoms";
 import { blTheme, brTheme } from "../../themes/ToolTip.themes";
+import {
+  Container,
+  IconSquare,
+  InfoCard,
+  SimpleButton,
+} from "../styles/partyPage/Header.styled";
 import ToolTip from "../ToolTip";
 
 const Header = () => {
@@ -35,36 +40,5 @@ const Header = () => {
     </Container>
   );
 };
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  background-color: #171a21;
-  border-radius: 0.3rem;
-  padding: 1rem;
-  color: white;
-  justify-content: space-between;
-`;
-
-const IconSquare = styled.div`
-  display: inline-block;
-  line-height: 0.5rem;
-  text-align: center;
-  border-radius: 0.3rem;
-  padding: 1rem 1rem;
-  background-color: #243a56;
-  color: white;
-`;
-
-const InfoCard = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-`;
-
-const SimpleButton = styled.button`
-  all: unset;
-  cursor: pointer;
-`;
 
 export default Header;

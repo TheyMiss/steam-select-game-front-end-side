@@ -1,12 +1,8 @@
 import styled from "styled-components";
 
 export const StyledModal = styled.div`
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-  text-align: center;
+  position: fixed;
+  width: 100%;
   height: 100vh;
   background-color: #0000009e;
   color: white;

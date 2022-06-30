@@ -1,7 +1,6 @@
 import { faUser, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRecoilValue } from "recoil";
-import styled from "styled-components";
 import { currentPlayerIdState, playersTableState } from "../recoil/atoms";
 import {
   PlayerCard,
@@ -9,7 +8,7 @@ import {
   PlayerIcon,
   PlayersList,
   StyledPlayersTable,
-} from "./styles/PlayersTable";
+} from "./styles/partyPage/PlayersTable";
 import { Title } from "./styles/Title.styled";
 
 interface IPlayerList {

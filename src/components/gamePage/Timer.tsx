@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { socket } from "../../conts/socket";
-import { ProgessBar } from "../styles/ProgressBar.styled";
-import { StyledTimer } from "../styles/Timer.styled";
+import { ProgessBar, StyledTimer } from "../styles/gamePage/Timer.styled";
 
 const Timer = () => {
   const [time, setTime] = useState(10);

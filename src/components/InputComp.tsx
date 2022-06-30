@@ -3,10 +3,11 @@ import { StyledInput } from "./styles/InputComp.styled";
 const InputComp: React.FC<{
   placeHolder?: string;
   onChange: () => void;
+  onDoubleClick?: () => void;
   value: string;
   readOnly?: boolean;
   onClick?: () => void;
-}> = ({ placeHolder, onChange, value, readOnly, onClick }) => {
+}> = ({ placeHolder, onChange, value, readOnly, onClick, onDoubleClick }) => {
   if (readOnly || onClick) {
     return (
       <StyledInput
@@ -15,6 +16,7 @@ const InputComp: React.FC<{
         placeholder={placeHolder}
         onChange={onChange}
         onClick={onClick}
+        onDoubleClick={onDoubleClick}
         value={value}
         readOnly
       />

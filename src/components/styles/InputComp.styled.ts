@@ -5,6 +5,5 @@ export const StyledInput = styled.input`
   background-color: #1b2839;
   color: white;
   padding: 0.5rem;
-  border-radius: 0.3rem;
   ${(props) => props.theme === true && "cursor: pointer"}
 `;

@@ -1,5 +1,4 @@
-import styled from "styled-components";
-import { StyledPlayGround } from "../styles/PlayGround.styled";
+import { StyledPlayGround } from "../styles/gamePage/PlayGround.styled";
 import GameCard from "./GameCard";
 import Timer from "./Timer";
 

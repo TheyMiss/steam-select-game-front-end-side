@@ -3,7 +3,6 @@ import {
   faBars,
   faPlay,
 } from "@fortawesome/free-solid-svg-icons";
-import styled from "styled-components";
 import RoomButton from "./buttons/RoomButton";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
@@ -21,6 +20,7 @@ import { socket } from "../../conts/socket";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import RoomButtonWithToolTip from "./buttons/RoomButtonWithToolTip";
+import { StyledActions } from "../styles/partyPage/Actions.styled";
 
 const Actions = () => {
   const [isJoined] = useRecoilState(isJoinedState);
@@ -50,7 +50,7 @@ const Actions = () => {
   };
 
   useEffect(() => {
-    socket.on("start_err_message", (data) => {
+    socket.on("game_info_message", (data) => {
       setErrMsg(data.message);
     });
 
@@ -78,7 +78,7 @@ const Actions = () => {
   }, [disabled, isRoomPlaying, playerList.length]);
 
   return (
-    <SectionContainer>
+    <StyledActions>
       {isJoined && (
         <>
           <RoomButtonWithToolTip
@@ -100,15 +100,8 @@ const Actions = () => {
       )}
 
       <RoomButton icon={faBars} label="To Menu" onClick={() => navigate("/")} />
-    </SectionContainer>
+    </StyledActions>
   );
 };
-
-const SectionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 3rem 0;
-  gap: 1rem;
-`;
 
 export default Actions;

@@ -2,10 +2,12 @@ import styled from "styled-components";
 
 export const StyledPlayGround = styled.div`
   display: grid;
-  grid-template-columns: auto;
-  justify-content: center;
   align-items: center;
+  justify-items: center;
   width: 60%;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 
   p {
     color: white;
