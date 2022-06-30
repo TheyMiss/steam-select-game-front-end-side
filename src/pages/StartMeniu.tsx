@@ -5,7 +5,6 @@ const StartMeniu = () => {
   return (
     <Container>
       <Meniu>
-        <NavigationButton title="Play Alone" address="/singlePlayer" />
         <NavigationButton title="Party" address="/party" />
       </Meniu>
     </Container>

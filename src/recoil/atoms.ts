@@ -1,4 +1,6 @@
 import { atom } from "recoil";
+import { IGameData } from "../types/gameData.type";
+import { IGameInfoState } from "../types/gameInfoSTate.type";
 
 export const playersTableState = atom({
   key: "playersTableState",
@@ -25,23 +27,10 @@ export const isOpenModalState = atom({
   default: false,
 });
 
-interface IGameData {
-  id: string;
-  name: string;
-  image: string;
-  price: string;
-  reviews: number;
-}
-
 export const gameDataState = atom<IGameData[]>({
   key: "gameDataState",
   default: [],
 });
-
-interface IGameInfoState {
-  round: number;
-  points: number;
-}
 
 export const gameInfoState = atom<IGameInfoState>({
   key: "gameInfoState",

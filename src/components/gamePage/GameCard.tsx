@@ -25,10 +25,8 @@ const GameCard = () => {
   const setNavigateTo = useSetRecoilState(navigateToState);
   const setPlayersList = useSetRecoilState(playersTableState);
 
-  const sendSelectedGame = (gameId: string) => {
-    console.log(gameId);
-
-    socket.emit("selected_game", { gameId: gameId, roomId: roomId });
+  const sendSelectedGame = (appid: number) => {
+    socket.emit("selected_game", { appid: appid, roomId: roomId });
   };
 
   useEffect(() => {
@@ -57,7 +55,7 @@ const GameCard = () => {
 
   return (
     <>
-      <GameCardDiv onClick={() => sendSelectedGame(gameData[0].id)}>
+      <GameCardDiv onClick={() => sendSelectedGame(gameData[0].appid)}>
         <Title>{gameData[0].name}</Title>
 
         <Image src={gameData[0].image} />
@@ -66,7 +64,7 @@ const GameCard = () => {
         <div />
         <div />
       </HorizontalLines>
-      <GameCardDiv onClick={() => sendSelectedGame(gameData[1].id)}>
+      <GameCardDiv onClick={() => sendSelectedGame(gameData[1].appid)}>
         <Title>{gameData[1].name}</Title>
         <Image src={gameData[1].image} />
       </GameCardDiv>
